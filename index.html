@@ -250,7 +250,7 @@
                                         <div class="text-center text-xs text-slate-500 my-1 font-bold">-- מנוחה מלאה עד התאוששות --</div>
                                         <div class="flex flex-col gap-1">
                                             <span class="text-white font-bold">סט 2 (סט גיבוי / Back-off Set):</span>
-                                            <span class="text-slate-300">הורד 10%-15% מהמשקל, ובצע 6-8 חזרות ב-RIR 1.</span>
+                                            <span class="text-slate-300">הורד 10%-15% מהמשקל, ובצע 7-10 חזרות ב-RIR 1.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -781,22 +781,41 @@
                 list.innerHTML = '';
 
                 workouts[day].forEach(ex => {
+                    const isTwoSets = ex === 'רומני' || ex === 'פשיטה ברכיים' || ex === 'פשיטות ברכיים' || (day === 'C' && ex === 'יד קדמית');
+                    const setsCount = isTwoSets ? '2 סטים' : '3 סטים';
+                    
+                    let setsHtml = '';
+                    if (isTwoSets) {
+                        setsHtml = `
+                            <div class="flex flex-col sm:flex-row sm:gap-2">
+                                <div><span class="font-bold text-slate-700">סט 1 (כבד):</span> 5-6 חז'</div>
+                            </div>
+                            <div class="pt-1.5 border-t border-slate-200/60">
+                                <span class="font-bold text-orange-600 inline-block">סט 2:</span> <span class="text-orange-500 font-medium">Deadstop (עצירה בשיא המתיחה) 2-3 שניות</span>
+                            </div>
+                        `;
+                    } else {
+                        setsHtml = `
+                            <div class="flex flex-col sm:flex-row sm:gap-2">
+                                <div><span class="font-bold text-slate-700">סט 1 (כבד):</span> 5-6 חז'</div>
+                                <div class="hidden sm:block text-slate-300">|</div>
+                                <div><span class="font-bold text-slate-700">סט 2 (גיבוי):</span> 7-10 חז' (-15% משקל)</div>
+                            </div>
+                            <div class="pt-1.5 border-t border-slate-200/60">
+                                <span class="font-bold text-orange-600 inline-block">סט 3:</span> <span class="text-orange-500 font-medium">Deadstop (עצירה בשיא המתיחה) 2-3 שניות</span>
+                            </div>
+                        `;
+                    }
+
                     const div = document.createElement('div');
                     div.className = "bg-white p-4 sm:p-5 rounded-2xl border border-slate-100 shadow-sm mb-3 hover:border-indigo-200 transition-colors";
                     div.innerHTML = `
                         <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-3">
                             <h4 class="font-black text-slate-800 text-lg">${ex}</h4>
-                            <span class="text-xs font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-lg self-start sm:self-auto border border-indigo-100">3 סטים</span>
+                            <span class="text-xs font-bold bg-indigo-50 text-indigo-600 px-2 py-1 rounded-lg self-start sm:self-auto border border-indigo-100">${setsCount}</span>
                         </div>
                         <div class="text-sm text-slate-500 bg-slate-50 p-3 rounded-xl border border-slate-100 mt-2 space-y-1.5">
-                            <div class="flex flex-col sm:flex-row sm:gap-2">
-                                <div><span class="font-bold text-slate-700">סט 1 (כבד):</span> 5-6 חז'</div>
-                                <div class="hidden sm:block text-slate-300">|</div>
-                                <div><span class="font-bold text-slate-700">סט 2 (גיבוי):</span> 6-8 חז' (-15% משקל)</div>
-                            </div>
-                            <div class="pt-1.5 border-t border-slate-200/60">
-                                <span class="font-bold text-orange-600 inline-block">סט 3:</span> <span class="text-orange-500 font-medium">Deadstop (עצירה בשיא המתיחה) 2-3 שניות</span>
-                            </div>
+                            ${setsHtml}
                         </div>
                     `;
                     list.appendChild(div);
